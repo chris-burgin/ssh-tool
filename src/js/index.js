@@ -30,10 +30,22 @@
       // toggle everything open or closed
       el.toggleClass('editing');
       el.children('.functions').toggleClass('visible');
+
+      $('html').on('mousedown', function() {
+        el.removeClass('editing');
+        el.children('.functions').removeClass('visible');
+        $(this).off();
+      });
     });
 
     // edit
     $("body").on('click', '.machine .functions .edit', function (event){
+      // no bubbles
+      event.stopPropagation();
+
+      // turn off gobal listener
+      $('html').off();
+
       // select parent element
       let el = $(this).parent().parent();
 
@@ -42,6 +54,9 @@
 
       //set data-id
       $('.add_machine_dialog').attr('data-id', el.attr('data-id'));
+
+      // set button text
+      $('.add_machine_dialog form input[type="submit"]').val('Update');
 
       // reset inputs
       $('.add_machine_dialog form input[type=text]').val('');
@@ -60,6 +75,12 @@
 
     // trash
     $("body").on('click', '.machine .functions .trash', function (event){
+      // no bubbles
+      event.stopPropagation();
+
+      // turn off gobal listener
+      $('html').off();
+
       // select parent element
       let el = $(this).parent().parent();
 
@@ -69,9 +90,6 @@
 
     // show machine dialog - add
     $("body").on('click', '.search_wrapper .add_icon, .add_machine_dialog .back_button img', function (event){
-      // show
-      $('.add_machine_dialog').toggleClass('visible');
-
       //remove editing
       $('.add_machine_dialog').removeClass('edit');
 
@@ -80,6 +98,12 @@
 
       // reset inputs
       $('.add_machine_dialog form input[type=text]').val('');
+
+      // set button text
+      $('.add_machine_dialog form input[type="submit"]').val('Create');
+
+      // show
+      $('.add_machine_dialog').toggleClass('visible');
     });
 
     // add form submit
