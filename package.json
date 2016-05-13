@@ -1,5 +1,5 @@
 {
-  "name": "ssh tool",
+  "name": "sshtool",
   "version": "1.0.0",
   "description": "A minimal ssh list application",
   "main": "main.js",

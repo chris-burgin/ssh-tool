@@ -1,0 +1,44 @@
+.add_machine_dialog {
+  transition: .2s;
+  transform: translateX(100%);
+
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border: 0;
+  background-color: white;
+
+  &.visible {
+    transform: translateX(0%);
+  }
+
+  .back_button {
+    height: 5rem;
+    width: 100%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 2rem;
+      padding-left: 2rem;
+      cursor: pointer;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    input {
+      width: 90%;
+      height: 4rem;
+      margin: .5rem 0;
+      font-size: 1.4rem;
+    }
+  }
+}
