@@ -48,6 +48,7 @@
     // show machine dialog
     $("body").on('click', '.search_wrapper .add_icon, .add_machine_dialog .back_button img', function (event){
       $('.add_machine_dialog').toggleClass('visible');
+      $('.add_machine_dialog form input[type=text]').val('');
     });
 
     // add form submit
