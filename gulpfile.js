@@ -2,7 +2,6 @@
   const gulp = require('gulp'),
       gutil = require('gulp-util'),
       rename = require('gulp-rename'),
-      autoprefixer = require('gulp-autoprefixer'),
       cssnano = require('gulp-cssnano'),
       changed = require('gulp-changed'),
       stylus = require('gulp-stylus');
@@ -11,10 +10,6 @@
 gulp.task('stylus', function() {
     return gulp.src('src/css/*.styl')
     .pipe(stylus())
-    .pipe(autoprefixer({
-        browsers: ['> 1%', 'Last 5 Versions'],
-        cascade: false
-    }))
     .pipe(cssnano({
       'zindex' : false
     }))
@@ -24,10 +19,6 @@ gulp.task('stylus', function() {
 
 gulp.task('realcss', function() {
     return gulp.src('src/css/external/*.css')
-    .pipe(autoprefixer({
-        browsers: ['> 1%', 'Last 5 Versions'],
-        cascade: false
-    }))
     .pipe(cssnano({
       'zindex' : false
     }))

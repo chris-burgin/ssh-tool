@@ -1,0 +1,109 @@
+.primary_list {
+  height: 100%;
+
+  .machines {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    .machine {
+      display: flex;
+      justify-content: space-between;
+      height: 5rem;
+      cursor: pointer;
+      transition: .2s;
+      padding-left: 2rem;
+
+      &:nth-child(odd){
+        background-color: #ECECEC;
+      }
+
+      &:hover, &.editing {
+        background-color: black;
+
+        .data {
+
+          .meta {
+            color: white;
+          }
+        }
+
+        .functions {
+          .gear {
+            display: block;
+          }
+        }
+      }
+
+      &.editing {
+        cursor: auto;
+      }
+
+      .data {
+        display: flex;
+        align-items: center;
+
+        .meta {
+          display: flex;
+          flex-flow: column;
+          color: black;
+
+          .title {
+            font-weight: 600;
+            font-size: 1.4rem;
+          }
+
+          .ip {
+            font-weight: 200;
+            font-size: 1.2rem;
+          }
+        }
+      }
+
+      .functions {
+        display: flex;
+        align-items: center;
+
+        &.visible {
+          .edit, .trash {
+            width: 7rem;
+          }
+        }
+
+        .gear {
+          display: none;
+          margin-right: 2rem;
+          cursor: pointer;
+        }
+
+        .edit, .trash {
+          height: 5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 7rem;
+          width: 0;
+          overflow: hidden;
+          transition: .2s;
+          cursor: pointer;
+        }
+
+        .edit {
+          background-color: blue;
+
+          &:hover {
+            background-color: lighten(blue, 15%);
+          }
+        }
+
+        .trash {
+          background-color: red;
+
+          &:hover {
+            background-color: lighten(red, 15%);
+          }
+        }
+      }
+    }
+  }
+}
