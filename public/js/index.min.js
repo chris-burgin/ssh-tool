@@ -2,6 +2,7 @@
   // requires
   const render = require('./render.min.js');
   const data = require('./data.min.js');
+  const clipboard = require('electron').clipboard
 
 
   // functions
@@ -137,6 +138,13 @@
       console.log(el.attr('data-id'));
       data.remove_machine(el.attr('data-id'), function(){
         el.remove();
+      });
+    });
+
+    // copy to clipboard
+    $("body").on('click', '.machine', function(event){
+      data.fetch_machine($(this).attr('data-id'), function(object){
+        clipboard.writeText('ssh ' + object.user + '@' + object.ip);
       });
     });
 
