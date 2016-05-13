@@ -17,8 +17,34 @@
           // stringify
           let string = JSON.stringify(machines);
 
-          //write
+          // write
           fs.writeFile('public/data/machines.json',string,function(err) { console.log(err);});
+        });
+      };
+
+      const remove_machine = function remove_machine(id, callback) {
+        fetch_machines(function(object){
+          // append to machines
+          for (var i = 0; i < object.length; i++) {
+            if (object[i].id == id){
+              // remove object
+              object.splice(i, i+1);
+
+              //update machines object
+              machines = object;
+
+              // stringify
+              let string = JSON.stringify(machines);
+
+              //write
+              fs.writeFile('public/data/machines.json',string,function(err) { console.log(err)});
+
+              // callback
+              callback();
+
+              break;
+            }
+          }
         });
       };
 
@@ -69,11 +95,15 @@
       const nextid = function nextid(callback){
         fetch_machines(function(object){
           // returns the last object id + 1
-          callback(parseInt(machines[machines.length -1].id) + 1)
+          if (machines.length != 0){
+            callback(parseInt(machines[machines.length -1].id) + 1)
+          } else {
+            callback(0);
+          }
         });
       };
 
-      return { add_machine, fetch_machines, fetch_machine, update_machine, };
+      return { add_machine, fetch_machines, fetch_machine, update_machine, remove_machine, };
     }());
 
     module.exports = data;

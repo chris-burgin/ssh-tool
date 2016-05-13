@@ -3,19 +3,61 @@
   const render = require('./render.min.js');
   const data = require('./data.min.js');
 
-  var terminal = require('child_process').spawn('bash');
-  // function
 
-  terminal.stdout.on('data', function (data) {
-    console.log(data);
-});
+  // functions
+  const search = function search(searchstring) {
+    // clear it all if empty
+    if (searchstring == "") {
+      $('.machines .machine').show();
+    } else {
+      // what if its not empty
+      let ids = []
+
+
+      data.fetch_machines(function(object){
+        // newsletter loop
+        for (let i = 0; i < object.length; i++) {
+          // setup query
+          let querys = [object[i].title, object[i].ip,
+                        object[i].user];
+
+          let querystring = "";
+
+          // concat query
+          for (let x = 0; x < querys.length; x++) {
+            if (querys[x] !== null){
+              querystring = querystring + querys[x];
+            }
+          }
+
+          //standarze data
+          searchstring = searchstring.replace(/\s+/g, '').toLowerCase()
+          querystring = querystring.replace(/\s+/g, '').toLowerCase();
+
+          // search tag string
+          if (querystring.indexOf(searchstring) !== -1 ) {
+            ids.push(object[i].id);
+          }
+        }
+
+        //filter newsletters
+        $( ".machines .machine" ).each(function( index ) {
+          let id = parseInt($(this).attr('data-id'));
+          if ($.inArray(id, ids) === -1) {
+            $(this).hide();
+          } else {
+            $(this).show();
+          }
+        });
+      });
+
+    }
+  };
 
 
   // init/listeners
   const init = function init(){
     // initial render of machines
-    //data.add_machine('Title1', '125.12.32.2', 'root');
-
     render.machines(function(machine_html){
       $('.machines').prepend(machine_html);
     });
@@ -24,18 +66,27 @@
     // listeners
     // settings cog
     $("body").on('click', '.machine .functions .gear', function (event){
+      // prevent
+      event.stopPropagation();
       // select parent element
       let el = $(this).parent().parent();
 
-      // toggle everything open or closed
-      el.toggleClass('editing');
-      el.children('.functions').toggleClass('visible');
-
-      $('html').on('mousedown', function() {
+      // toggle classes
+      if (el.hasClass('editing')){
         el.removeClass('editing');
         el.children('.functions').removeClass('visible');
-        $(this).off();
-      });
+        $('html').off();
+      } else {
+        el.addClass('editing');
+        el.children('.functions').addClass('visible');
+
+        $('html').on('click', function() {
+          el.removeClass('editing');
+          el.children('.functions').removeClass('visible');
+          $(this).off();
+        });
+      }
+
     });
 
     // edit
@@ -83,9 +134,10 @@
 
       // select parent element
       let el = $(this).parent().parent();
-
-      // toggle everything open or closed
-      console.log('trash');
+      console.log(el.attr('data-id'));
+      data.remove_machine(el.attr('data-id'), function(){
+        el.remove();
+      });
     });
 
     // show machine dialog - add
@@ -132,6 +184,11 @@
       });
 
       $('.add_machine_dialog').removeClass('visible');
+    });
+
+    // search
+    $("body").on('keyup change', '.search', function (event){
+      search($(this).val(), this);
     });
 
   }; init();
