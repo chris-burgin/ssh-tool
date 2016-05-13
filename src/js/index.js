@@ -1,14 +1,18 @@
 (function(){
+  // requires
+  const render = require('./render.min.js');
+  const data = require('./data.min.js');
 
+  // function
 
 
   // init/listeners
   const init = function init(){
-    // setup init
+    // initial render of machines
+    render.machines();
 
 
     // listeners
-
     // settings cog
     $("body").on('click', '.machine .functions .gear', function (event){
       // select parent element
