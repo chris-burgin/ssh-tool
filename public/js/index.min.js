@@ -9,7 +9,9 @@
   // init/listeners
   const init = function init(){
     // initial render of machines
-    render.machines();
+    render.machines(function(machine_html){
+      $('.machines').prepend(machine_html);
+    });
 
 
     // listeners
